@@ -1,26 +1,23 @@
+import Layout from '@layout/components/layout/layout';
+import PageNotFound from '@layout/components/page-not-found/page-not-found';
+import SiteFooter from '@layout/components/site-footer/site-footer';
+import SiteHeader from '@layout/components/site-header/site-header';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Route, Routes} from 'react-router';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import './App.scss';
+
+export const App = () => {
+	return (
+		<Routes>
+			<Route path="/" element={<Layout
+				header={<SiteHeader title="React Boilerplate" />}
+				footer={<SiteFooter />}
+			/>}>
+				<Route path="*" element={<PageNotFound />} />
+			</Route>
+		</Routes>
+	);
+};
 
 export default App;
