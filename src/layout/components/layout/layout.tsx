@@ -1,14 +1,17 @@
 import {ReactElement} from 'react';
-import {Outlet} from 'react-router';
 import './layout.scss';
 
 interface SiteContainerProps {
 	header?: ReactElement;
 	footer?: ReactElement;
 	sidebar?: ReactElement;
+	// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 	children?: any
 }
+
+
 export const Layout = (props: SiteContainerProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 	return (
 		<div className="site-container flex-row">
 			{props.sidebar &&
@@ -17,7 +20,7 @@ export const Layout = (props: SiteContainerProps) => {
 			<div className="site-right-content">
 				<div className="site-header">{props.header}</div>
 				<div className={`site-content ${props.footer ? 'with-footer' : ''}`}>
-					<Outlet />
+					{props.children}
 				</div>
 				{props.footer &&
 					<div className="site-footer">{props.footer}</div>

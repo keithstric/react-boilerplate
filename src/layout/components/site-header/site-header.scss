@@ -19,4 +19,26 @@
 			color: white;
 		}
 	}
+
+	.header-link {
+		margin-right: 15px;
+		padding: 4px;
+		border-radius: 4px;
+		background-color: $primary;
+		color: white;
+
+		&.active {
+			background-color: $app-info;
+			color: black;
+			@include elevation(2);
+			text-decoration: none;
+		}
+
+		&:hover {
+			background-color: $app-info;
+			color: black;
+			@include elevation(2);
+			text-decoration: none;
+		}
+	}
 }

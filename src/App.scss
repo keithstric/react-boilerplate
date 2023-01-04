@@ -1,38 +1,50 @@
-.App {
-  text-align: center;
-}
+.loading-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 5;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+	$offset: 187;
+	$duration: 1.4s;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+	.spinner {
+		animation: rotator $duration linear infinite;
+	}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+	@keyframes rotator {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(270deg); }
+	}
 
-.App-link {
-  color: #61dafb;
-}
+	.path {
+		stroke-dasharray: $offset;
+		stroke-dashoffset: 0;
+		transform-origin: center;
+		animation:
+			dash $duration ease-in-out infinite,
+			colors ($duration*4) ease-in-out infinite;
+	}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	@keyframes colors {
+		0% { stroke: #4285F4; }
+		25% { stroke: #DE3E35; }
+		50% { stroke: #F7C223; }
+		75% { stroke: #1B9A59; }
+		100% { stroke: #4285F4; }
+	}
+
+	@keyframes dash {
+		0% { stroke-dashoffset: $offset; }
+		50% {
+			stroke-dashoffset: $offset/4;
+			transform:rotate(135deg);
+		}
+		100% {
+			stroke-dashoffset: $offset;
+			transform:rotate(450deg);
+		}
+	}
 }
