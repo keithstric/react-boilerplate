@@ -1,5 +1,5 @@
 import './home.scss';
-import {ApiMethod} from '@core/interfaces/core.interfaces';
+import {ApiMethod} from '@core/interfaces/core.interface';
 import HttpService from '@core/services/http/http.service';
 import Layout from '@layout/components/layout/layout';
 import SiteFooter from '@layout/components/site-footer/site-footer';

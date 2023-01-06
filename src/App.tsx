@@ -2,11 +2,10 @@ import {LogBook} from '@core/services/logger/logbook';
 import {LogBookConfig, LogLevel} from '@core/services/logger/logger.interface';
 import {ConsoleTransport} from '@core/services/logger/transports/console-transport';
 import PageNotFound from '@layout/components/page-not-found/page-not-found';
-import LoadingService from '@layout/services/loading/loading.service';
 import About from '@src/pages/about/about';
 import Features from '@src/pages/features/features';
 import Home from '@src/pages/home/home';
-import React, {createContext, useState} from 'react';
+import React, {createContext, useEffect, useState} from 'react';
 import {Route, Routes} from 'react-router';
 
 import './App.scss';
@@ -19,12 +18,21 @@ const loggerConfig: LogBookConfig = {
 export const LoggerContext = createContext<LogBook | undefined | null>(undefined);
 export const logger = LogBook.getInstance(loggerConfig);
 
-export const LoadingContext = createContext<LoadingService | undefined | null>(undefined);
-export const loadingService = LoadingService.getInstance();
-
 export const App = () => {
-	const [loading, setLoading] = useState(loadingService.loading);
-	console.log('[App] loading=', loading);
+	const [loading, setLoading] = useState(false);
+	const loadingHandler = (evt: CustomEvent) => {
+		logger?.silly('[App.loadingHandler], evt.detail=', evt.detail);
+		setLoading(evt.detail as boolean);
+	};
+	useEffect(() => {
+		document.addEventListener('loadingUpdated', loadingHandler);
+		return () => {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			document.removeEventListener('loadingUpdated', loadingHandler);
+		};
+	}, []);
+	logger?.silly('[App.state] loading=', loading);
 	return (
 		<LoggerContext.Provider value={logger}>
 			{loading &&

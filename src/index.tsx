@@ -1,6 +1,6 @@
 import {ErrorBoundaries} from '@core/components/error-boundry/error-boundry';
 import {setupRequestInterceptor, setupResponseInterceptor} from '@core/interceptors/http-interceptor.service';
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import {BrowserRouter} from 'react-router-dom';
@@ -8,9 +8,11 @@ import {App} from './App';
 import reportWebVitals from './reportWebVitals';
 
 import './scss/styles.scss';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 setupRequestInterceptor();
 setupResponseInterceptor();
 root.render(

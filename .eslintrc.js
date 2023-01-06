@@ -39,6 +39,7 @@ module.exports = {
 		'import/no-unresolved': 0,
 		'max-len': 0,
 		'@typescript-eslint/no-explicit-any': 'off',
+		'@typescript-eslint/ban-ts-comment': 'off',
 		'valid-jsdoc': 0,
 		'require-jsdoc': 0,
 		'no-unused-vars': 0,

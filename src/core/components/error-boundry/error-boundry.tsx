@@ -30,7 +30,6 @@ export class ErrorBoundaries extends React.Component<ErrorboundaryProps, ErrorBo
 	}
 
 	render(): React.ReactNode {
-		console.log('[ErrorBoundaries.render], this.state=', this.state);
 		if (this.state?.hasError) {
 			return (
 				<div className="error-container">

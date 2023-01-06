@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-unsafe-call */
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import {ApiMethod} from '@core/interfaces/core.interfaces';
+import {ApiMethod} from '@core/interfaces/core.interface';
 import {HttpRequestConfig} from '@core/interfaces/http.interface';
 import axios, {AxiosRequestConfig} from 'axios';
 
