@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import {ApiMethod} from '@core/interfaces/core.interface';
 import {HttpRequestConfig} from '@core/interfaces/http.interface';
-import axios, {AxiosRequestConfig} from 'axios';
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 
 export default class HttpService {
 	static instance: HttpService | null = null;
@@ -18,7 +18,7 @@ export default class HttpService {
 		return HttpService.instance;
 	}
 
-	doRequest(apiUrl: string, method: ApiMethod, body?: any, config?: HttpRequestConfig) {
+	doRequest(apiUrl: string, method: ApiMethod, body?: any, config?: HttpRequestConfig): Promise<AxiosResponse> {
 		const axiosCfg: AxiosRequestConfig = {
 			method,
 			headers: config?.headers,

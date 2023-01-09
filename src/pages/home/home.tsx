@@ -1,6 +1,7 @@
 import './home.scss';
 import {ApiMethod} from '@core/interfaces/core.interface';
 import HttpService from '@core/services/http/http.service';
+import {LogBook} from '@core/services/logger/logbook';
 import Layout from '@layout/components/layout/layout';
 import SiteFooter from '@layout/components/site-footer/site-footer';
 import SiteHeader from '@layout/components/site-header/site-header';
@@ -10,7 +11,7 @@ export const Home = () => {
 	const getPokeClick = async (evt: any) => {
 		const httpService = HttpService.getInstance();
 		const response = await httpService.doRequest('https://pokeapi.co/api/v2/pokemon', ApiMethod.GET);
-		console.log('[getPokeClick] response=', response);
+		LogBook.getInstance()?.debug('[getPokeClick] response=', response);
 	};
 
 	return (
