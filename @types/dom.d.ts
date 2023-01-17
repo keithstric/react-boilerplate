@@ -4,6 +4,7 @@
  */
 interface CustomEventMap {
 	'loadingUpdated': CustomEvent<boolean>;
+	'MiddleName:valueChanges': CustomEvent<string>;
 }
 
 /**

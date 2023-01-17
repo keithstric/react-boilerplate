@@ -13,6 +13,9 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 	],
 	parser: '@typescript-eslint/parser',
+	parserOptions: {
+		tsconfigRootDir: __dirname,
+	},
 	plugins: [
 		'@typescript-eslint',
 		'import',
@@ -22,7 +25,6 @@ module.exports = {
 			files: ['*.ts', '*.tsx'],
 			extends: [
 				'plugin:@typescript-eslint/recommended',
-				'plugin:@typescript-eslint/recommended-requiring-type-checking',
 			],
 			parserOptions: {
 				project: ['./tsconfig.json'],
@@ -39,7 +41,8 @@ module.exports = {
 		'import/no-unresolved': 0,
 		'max-len': 0,
 		'@typescript-eslint/no-explicit-any': 'off',
-		'@typescript-eslint/ban-ts-comment': 'off',
+		'@typescript-eslint/ban-ts-comment': ['warn', {'ts-ignore': 'allow-with-description'}],
+		'@typescript-eslint/no-unsafe-assignment': 'off',
 		'valid-jsdoc': 0,
 		'require-jsdoc': 0,
 		'no-unused-vars': 0,

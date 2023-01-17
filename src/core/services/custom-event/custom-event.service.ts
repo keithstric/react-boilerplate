@@ -22,6 +22,7 @@ export default class CustomEventService {
 		let event = this._eventMap[evtName];
 		if (!event && evtProperties) {
 			event = this.createEvent(evtName, evtProperties);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			document.dispatchEvent(event);
 		} else if (event) {
 			if (evtProperties) {
@@ -29,6 +30,7 @@ export default class CustomEventService {
 					event = this.createEvent(evtName, evtProperties);
 				}
 			}
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			document.dispatchEvent(event);
 		} else {
 			throw new Error(`Event ${evtName} does not exist`);
