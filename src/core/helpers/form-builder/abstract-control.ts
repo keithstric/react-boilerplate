@@ -1,8 +1,8 @@
-import {FormArray} from '@core/helpers/form-builder/form-array';
-import {FormGroup} from '@core/helpers/form-builder/form-group';
+import FormArray from '@core/helpers/form-builder/form-array';
+import FormGroup from '@core/helpers/form-builder/form-group';
 import {
 	ControlEventOptions,
-	FormControlStatus, ReactiveFormElement, ReactiveGroupElement,
+	FormControlStatus, FormError, ReactiveFormElement, ReactiveGroupElement,
 	UpdateOnHooks, ValidationErrors,
 	ValidatorFn,
 } from '@core/interfaces/form-builder.interface';
@@ -72,6 +72,8 @@ export default class AbstractControl<TValue> {
 		this._element = element;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	private validate() {
 		return this._validators.map((validator) => {
 			return validator(this);

@@ -1,6 +1,7 @@
 import FormControlComp from '@core/components/form-builder/FormControlComp';
+import FormGroupComp from '@core/components/form-builder/FormGroupComp';
 import {pattern, required} from '@core/helpers/form-builder/validators';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef} from 'react';
 
 export const ReactiveFormDemo = () => {
 	/**
@@ -14,7 +15,7 @@ export const ReactiveFormDemo = () => {
 
 	return (
 		<div>
-			<h4>Stand-alone Form Controls</h4>
+			<h3>Stand-alone Form Controls</h3>
 			<FormControlComp name="FirstName">
 				<input ref={firstNameEl} type="text" disabled />
 			</FormControlComp>
@@ -31,6 +32,11 @@ export const ReactiveFormDemo = () => {
 					<option value="who-knows">Other</option>
 				</select>
 			</FormControlComp>
+
+			<h3>Form Group</h3>
+			<FormGroupComp name="root">
+				<span>This is a FormGroup</span>
+			</FormGroupComp>
 		</div>
 	);
 };
