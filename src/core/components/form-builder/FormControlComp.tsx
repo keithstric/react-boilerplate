@@ -7,6 +7,7 @@ export interface FormControlCompProps {
 	name: string;
 	children: JSX.Element;
 	validators?: ValidatorFn | ValidatorFn[];
+	label?: string;
 }
 
 export interface FormControlCompState {
@@ -38,9 +39,18 @@ export default class FormControlComp extends React.Component {
 		return this.state.control;
 	}
 
+	getLabel() {
+		if (this.props.label) {
+			// todo: Figure out how to style
+			return <label>{this.props.label}</label>;
+		}
+		return null;
+	}
+
 	render() {
 		return (
 			<div className="form-control">
+				{this.getLabel()}
 				{this.props.children}
 			</div>
 		);

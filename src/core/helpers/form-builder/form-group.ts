@@ -1,7 +1,7 @@
 import AbstractControl from '@core/helpers/form-builder/abstract-control';
 import FormControl from '@core/helpers/form-builder/form-control';
 import {
-	ControlEventOptions, FormArrayControls,
+	ControlEventOptions,
 	FormGroupControls,
 	ReactiveFormTypes,
 	ValidatorFn,
@@ -9,7 +9,7 @@ import {
 import {createContext} from 'react';
 
 export default class FormGroup<TValue> extends AbstractControl<TValue> {
-	protected _controls: FormGroupControls | FormArrayControls[] = {};
+	protected _controls: FormGroupControls = {};
 
 	constructor(validators?: ValidatorFn | ValidatorFn[]) {
 		super(validators);
@@ -17,6 +17,21 @@ export default class FormGroup<TValue> extends AbstractControl<TValue> {
 
 	get controls() {
 		return this._controls;
+	}
+
+	set controls(controls: FormGroupControls) {
+		this._controls = controls;
+	}
+
+	get value() {
+		if (this.controls) {
+			const value: any = {};
+			Object.keys(this.controls).forEach((key) =>{
+				value[key] = this.controls[key].value;
+			});
+			return value;
+		}
+		return null;
 	}
 
 	protected _getControl(name: string | number): ReactiveFormTypes {
@@ -50,7 +65,7 @@ export default class FormGroup<TValue> extends AbstractControl<TValue> {
 		// not empty
 	}
 
-	updateValueAndValidity(options: ControlEventOptions = {emitEvent: true}) {
+	updateValueAndValidity(options: ControlEventOptions = {emitEvent: true, recursive: true}) {
 		// not empty
 	}
 }

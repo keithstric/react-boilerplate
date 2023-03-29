@@ -10,12 +10,13 @@ export interface FormError {
 
 export interface ControlEventOptions {
 	emitEvent: boolean;
+	recursive: boolean;
 }
 
 export type ValidatorFn = (control: AbstractControl<any>) => FormError | null;
 export type FormControlStatus = 'VALID' | 'INVALID' | 'PENDING' | 'DISABLED';
 export type ValidationErrors = {[key: string]: FormError | FormError[]};
-export type UpdateOnHooks = 'change' | 'blur' | 'submit';
+export type UpdateOnHooks = 'change' | 'blur' | 'submit' | 'input';
 export type ReactiveFormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 export type ReactiveGroupElement = HTMLDivElement | HTMLFormElement;
 export type ReactiveFormTypes = FormControl<any> | FormArray<any> | FormGroup<any>;

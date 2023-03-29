@@ -33,38 +33,8 @@ export default class AbstractControl<TValue> {
 		}
 	}
 
-	addValidators(validators: ValidatorFn | ValidatorFn[]) {
-		if (Array.isArray(validators)) {
-			this._validators = [...this._validators, ...validators];
-		} else {
-			this._validators = [...this._validators, validators];
-		}
-	}
-
-	setValidators(validators: ValidatorFn | ValidatorFn[]) {
-		if (Array.isArray(validators)) {
-			this._validators = validators;
-		} else {
-			this._validators = [validators];
-		}
-	}
-
-	removeValidator(validator: ValidatorFn) {
-		const validatorIdx = this._validators.findIndex((currVal) => currVal === validator);
-		if (validatorIdx > -1) {
-			this._validators.splice(validatorIdx, 1);
-		}
-	}
-
-	clearValidators() {
-		this._validators = [];
-	}
-
-	hasValidator(validator: ValidatorFn) {
-		return !!this._validators.find((currVal) => currVal === validator);
-	}
-
 	get element() {
+		console.log('[element getter] this._element=', this._element);
 		return this._element;
 	}
 
@@ -72,41 +42,16 @@ export default class AbstractControl<TValue> {
 		this._element = element;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	private validate() {
-		return this._validators.map((validator) => {
-			return validator(this);
-		})
-			.filter((result) => result);
+	get controlName() {
+		return this._controlName;
 	}
 
-	get status(): FormControlStatus {
-		return this._status;
+	set controlName(controlName) {
+		this._controlName = controlName;
 	}
 
-	get errors() {
-		return this._errors;
-	}
-
-	get valid() {
-		return this.status === 'VALID';
-	}
-
-	get parent() {
-		return this._parent;
-	}
-
-	private _setParent(parent: FormGroup<TValue> | FormArray<TValue> | undefined) {
-		this._parent = parent;
-	}
-
-	get invalid() {
-		return this.status === 'INVALID';
-	}
-
-	get pending() {
-		return this.status === 'PENDING';
+	get dirty() {
+		return !this._pristine;
 	}
 
 	get disabled() {
@@ -117,12 +62,38 @@ export default class AbstractControl<TValue> {
 		return this.status !== 'DISABLED';
 	}
 
+	get errors() {
+		return this._errors;
+	}
+
+	get invalid() {
+		return this.status === 'INVALID';
+	}
+
+	get parent() {
+		return this._parent;
+	}
+
+	get pending() {
+		return this.status === 'PENDING';
+	}
+
 	get pristine() {
 		return this._pristine;
 	}
 
-	get dirty() {
-		return !this._pristine;
+	get root() {
+		let root = this.parent;
+		while (root) {
+			if (root.parent) {
+				root = root.parent;
+			}
+		}
+		return root;
+	}
+
+	get status(): FormControlStatus {
+		return this._status;
 	}
 
 	get touched() {
@@ -141,6 +112,10 @@ export default class AbstractControl<TValue> {
 		this._updateOn = updateOn;
 	}
 
+	get valid() {
+		return this.status === 'VALID';
+	}
+
 	get value() {
 		return this._value;
 	}
@@ -150,26 +125,52 @@ export default class AbstractControl<TValue> {
 		this.updateValueAndValidity();
 	}
 
-	get root() {
-		let root = this.parent;
-		while (root) {
-			if (root.parent) {
-				root = root.parent;
-			}
+	private _setParent(parent: FormGroup<TValue> | FormArray<TValue> | undefined) {
+		this._parent = parent;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	private _validate() {
+		return this._validators.map((validator) => {
+			return validator(this);
+		})
+			.filter((result) => result);
+	}
+
+	addValidators(validators: ValidatorFn | ValidatorFn[]) {
+		if (Array.isArray(validators)) {
+			this._validators = [...this._validators, ...validators];
+		} else {
+			this._validators = [...this._validators, validators];
 		}
-		return root;
 	}
 
-	get controlName() {
-		return this._controlName;
+	clearValidators() {
+		this._validators = [];
 	}
 
-	set controlName(controlName) {
-		this._controlName = controlName;
+	hasValidator(validator: ValidatorFn) {
+		return !!this._validators.find((currVal) => currVal === validator);
 	}
 
-	updateValueAndValidity(options: ControlEventOptions = {emitEvent: true}) {
-		const errors = this.validate();
+	removeValidator(validator: ValidatorFn) {
+		const validatorIdx = this._validators.findIndex((currVal) => currVal === validator);
+		if (validatorIdx > -1) {
+			this._validators.splice(validatorIdx, 1);
+		}
+	}
+
+	setValidators(validators: ValidatorFn | ValidatorFn[]) {
+		if (Array.isArray(validators)) {
+			this._validators = validators;
+		} else {
+			this._validators = [validators];
+		}
+	}
+
+	updateValueAndValidity(options: ControlEventOptions = {emitEvent: true, recursive: true}) {
+		const errors = this._validate();
 		if (errors?.length) {
 			this._status = 'INVALID';
 			this._errors = this.errors || {};

@@ -1,6 +1,11 @@
+import FormControlComp from '@core/components/form-builder/FormControlComp';
 import FormGroup from '@core/helpers/form-builder/form-group';
-import FormControl from '@core/helpers/form-builder/form-control';
-import {UpdateOnHooks, ValidatorFn} from '@core/interfaces/form-builder.interface';
+import {
+	FormGroupControls,
+	ReactiveFormTypes,
+	UpdateOnHooks,
+	ValidatorFn,
+} from '@core/interfaces/form-builder.interface';
 import React from 'react';
 
 export interface FormGroupCompProps {
@@ -8,6 +13,10 @@ export interface FormGroupCompProps {
 	name: string;
 	children: JSX.Element;
 	validators?: ValidatorFn | ValidatorFn[];
+}
+
+export interface FormGroupCompState {
+	formGroup: FormGroup<unknown>;
 }
 
 export default class FormGroupComp extends React.Component {
@@ -19,18 +28,29 @@ export default class FormGroupComp extends React.Component {
 		this.state = {
 			formGroup: new FormGroup<any>(this.props.validators),
 		};
-		this.control.controlName = this.props.name;
+		this.formGroup.controlName = this.props.name;
 		if (this.props.updateOn) {
-			this.control.updateOn = this.props.updateOn;
+			this.formGroup.updateOn = this.props.updateOn;
 		}
 	}
 
 	componentDidMount() {
-		// @ts-ignore: children of this element MUST have a ref
-		// this.control.element = this.props.children.ref.current;
+		console.log('[FormGroupComp.componentDidMount] children.props.children=', this.props.children.props.children);
+		console.log('[FormGroupComp.componentDidMount] props=', this.props);
+		console.log('[FormGroupComp.componentDidMount] state=', this.state);
+		this.formGroup.controlName = this.props.name;
+		if (!Array.isArray(this.props.children) && Array.isArray(this.props.children.props.children)) {
+			const formCtrls: FormControlComp[] = this.props.children.props.children;
+			const controls: FormGroupControls = {};
+			formCtrls.forEach((ctrl: FormControlComp) => {
+				console.log('ctrl=', ctrl);
+				controls[ctrl.props.name] = ((ctrl as any).ref.current as FormControlComp).control;
+			});
+			this.formGroup.controls = controls;
+		}
 	}
 
-	get control(): FormControl<any> {
+	get formGroup(): FormGroup<any> {
 		// @ts-ignore: it does exist and is set in the constructor
 		return this.state.formGroup;
 	}

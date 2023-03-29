@@ -1,9 +1,15 @@
 import AbstractControl from '@core/helpers/form-builder/abstract-control';
-import {ReactiveFormElement, ValidatorFn} from '@core/interfaces/form-builder.interface';
+import {ReactiveFormElement, ReactiveGroupElement, ValidatorFn} from '@core/interfaces/form-builder.interface';
 
 export default class FormControl<TValue> extends AbstractControl<TValue> {
+	protected _element: ReactiveFormElement | undefined;
+
 	constructor(validators?: ValidatorFn | ValidatorFn[] | undefined) {
 		super(validators);
+	}
+
+	get element() {
+		return this._element;
 	}
 
 	set element(element: ReactiveFormElement | undefined) {
@@ -19,6 +25,9 @@ export default class FormControl<TValue> extends AbstractControl<TValue> {
 			case 'submit':
 				this.element.onsubmit = this._update.bind(this);
 				break;
+			case 'input':
+				this.element.oninput = this._update.bind(this);
+				break;
 			}
 			this.element.onfocus = () => {
 				this._touched = true;
@@ -32,8 +41,7 @@ export default class FormControl<TValue> extends AbstractControl<TValue> {
 
 	private _update(evt: Event) {
 		evt.preventDefault();
-		// @ts-ignore: the value can actually be anything
-		this.value = evt.target.value;
+		this.value = (evt.target as ReactiveFormElement)?.value as any;
 		this._pristine = false;
 	}
 }
