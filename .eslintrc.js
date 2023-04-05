@@ -43,10 +43,12 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/ban-ts-comment': ['warn', {'ts-ignore': 'allow-with-description'}],
 		'@typescript-eslint/no-unsafe-assignment': 'off',
+		'@typescript-eslint/no-unused-vars': 'off',
 		'valid-jsdoc': 0,
 		'require-jsdoc': 0,
 		'no-unused-vars': 0,
 		'no-tabs': 0,
 		'no-floating-promises': 0,
+		'linebreak-style': 0
 	},
 };
